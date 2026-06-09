@@ -92,18 +92,35 @@
       <span>※ 결과는 보장되지 않습니다.</span>
     </p>
 
-    <a class="enter-btn" href="unit1.html">입장하기</a>
+    <a class="enter-btn" href="unit1.html" id="enter-btn">입장하기</a>
   </main>
 
   <script>
     const input = document.getElementById('wish-input');
     const display = document.getElementById('wish-display');
+
     input.addEventListener('input', () => {
       display.textContent = input.value ? '> ' + input.value : '';
     });
-    // Save wish to sessionStorage so later pages can reference it
-    document.querySelector('.enter-btn').addEventListener('click', (e) => {
-      sessionStorage.setItem('wish', input.value || '소원');
+
+    // 키워드 → 카테고리 매핑
+    function detectCategory(wish) {
+      const w = wish;
+      if (/사랑|좋아|썸|짝사랑|연애|남자친구|여자친구|고백|설레|그리워|보고싶|이별|헤어|결혼|연인|커플/.test(w)) return 'love';
+      if (/돈|부자|취업|월급|알바|빚|통장|재산|부유|경제|직장|연봉|투자|주식|로또|복권/.test(w)) return 'money';
+      if (/유명|인기|팔로워|좋아요|스타|아이돌|인플루언서|주목|관심|알아봐|칭찬|인정|주인공/.test(w)) return 'fame';
+      if (/복수|원수|미워|싫어|혼내|벌받|후회|앙갚음|갚아|당해봐|괴롭|괴로워/.test(w)) return 'revenge';
+      if (/자유|벗어|탈출|도망|혼자|떠나|사라지|편하|쉬고|놓아|내려놓|독립/.test(w)) return 'freedom';
+      if (/건강|병|아파|낫고|완치|오래|장수|다이어트|살빼|몸/.test(w)) return 'health';
+      if (/재능|잘하|실력|능력|공부|성적|시험|합격|천재|똑똑|노래|그림|운동/.test(w)) return 'talent';
+      if (/시간|돌아가|과거|미래|되돌|후회|바꾸|다시|어릴|젊/.test(w)) return 'time';
+      return 'unknown';
+    }
+
+    document.getElementById('enter-btn').addEventListener('click', (e) => {
+      const wish = input.value.trim();
+      sessionStorage.setItem('wish', wish || '소원');
+      sessionStorage.setItem('category', detectCategory(wish));
     });
   </script>
 </body>

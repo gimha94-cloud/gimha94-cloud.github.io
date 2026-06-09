@@ -10,8 +10,50 @@
       font-size: 1.3rem;
       font-weight: 400;
       color: #e8e8f0;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0.8rem;
       letter-spacing: 0.04em;
+    }
+    .wish-echo {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      min-height: 1.2em;
+    }
+    .wish-echo span {
+      color: var(--accent);
+    }
+    .analysis {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .analysis.visible { display: block; }
+    .analysis .match {
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+
+    /* 추천 카테고리 하이라이트 */
+    .choice.recommended {
+      border-color: var(--accent);
+      color: #fff;
+      background: var(--accent-glow);
+      position: relative;
+    }
+    .choice.recommended::after {
+      content: '← 추천';
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--accent);
+      margin-left: 0.8rem;
+      letter-spacing: 0.1em;
     }
   </style>
 </head>
@@ -21,13 +63,50 @@
 
     <h1 class="question">무엇을 원하십니까?</h1>
 
-    <nav class="choices">
-      <a class="choice" href="love.html">사랑</a>
-      <a class="choice" href="money.html">돈</a>
-      <a class="choice" href="fame.html">인기</a>
-      <a class="choice" href="revenge.html">복수</a>
-      <a class="choice" href="freedom.html">자유</a>
+    <div class="wish-echo" id="wish-echo"></div>
+    <div class="analysis" id="analysis"></div>
+
+    <nav class="choices" id="choices">
+      <a class="choice" href="love.html" data-cat="love">사랑</a>
+      <a class="choice" href="money.html" data-cat="money">돈</a>
+      <a class="choice" href="fame.html" data-cat="fame">인기</a>
+      <a class="choice" href="revenge.html" data-cat="revenge">복수</a>
+      <a class="choice" href="freedom.html" data-cat="freedom">자유</a>
+      <a class="choice" href="health.html" data-cat="health">건강</a>
+      <a class="choice" href="talent.html" data-cat="talent">재능</a>
+      <a class="choice" href="time.html" data-cat="time">시간</a>
     </nav>
   </main>
+
+  <script>
+    const wish = sessionStorage.getItem('wish') || '';
+    const category = sessionStorage.getItem('category') || 'unknown';
+
+    const echoEl = document.getElementById('wish-echo');
+    const analysisEl = document.getElementById('analysis');
+
+    if (wish) {
+      echoEl.innerHTML = '입력한 소원: <span>"' + wish + '"</span>';
+    }
+
+    const labels = {
+      love: '사랑', money: '돈', fame: '인기',
+      revenge: '복수', freedom: '자유',
+      health: '건강', talent: '재능', time: '시간'
+    };
+
+    if (category !== 'unknown' && wish) {
+      analysisEl.classList.add('visible');
+      analysisEl.innerHTML =
+        '소원 분석 중...<br><span class="match">▶ ' + labels[category] + ' 카테고리가 감지되었습니다.</span>';
+
+      // 추천 카테고리 하이라이트
+      document.querySelectorAll('.choice').forEach(el => {
+        if (el.dataset.cat === category) {
+          el.classList.add('recommended');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
