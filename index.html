@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소원 기계 — 하이퍼 디포엠</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .logo {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      margin-bottom: 3rem;
+    }
+    .headline {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #e8e8f0;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.04em;
+    }
+    .tagline {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+    }
+    .tagline span { color: var(--danger); }
+    .enter-btn {
+      display: block;
+      margin-top: 2.5rem;
+      padding: 1rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      text-decoration: none;
+      text-align: left;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, color 0.2s;
+      position: relative;
+    }
+    .enter-btn::before {
+      content: '▶';
+      font-size: 0.65rem;
+      margin-right: 0.8rem;
+      color: var(--accent);
+    }
+    .enter-btn:hover {
+      background: var(--accent-glow);
+      color: #fff;
+    }
+    #wish-display {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      min-height: 1.2em;
+      margin-top: 0.4rem;
+      letter-spacing: 0.08em;
+      transition: opacity 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="logo">WISH.SYS v0.∞</div>
+
+    <h1 class="headline">모든 소원은<br>이루어집니다.</h1>
+
+    <p class="poem">당신의 소원을 입력하세요.</p>
+
+    <input
+      class="wish-input"
+      type="text"
+      placeholder="□□□□□□□□□□"
+      id="wish-input"
+      autocomplete="off"
+      spellcheck="false"
+      maxlength="30"
+    >
+    <div id="wish-display"></div>
+
+    <hr class="divider">
+
+    <p class="tagline">
+      ※ 모든 소원은 이루어집니다. &nbsp;
+      <span>※ 결과는 보장되지 않습니다.</span>
+    </p>
+
+    <a class="enter-btn" href="unit1.html">입장하기</a>
+  </main>
+
+  <script>
+    const input = document.getElementById('wish-input');
+    const display = document.getElementById('wish-display');
+    input.addEventListener('input', () => {
+      display.textContent = input.value ? '> ' + input.value : '';
+    });
+    // Save wish to sessionStorage so later pages can reference it
+    document.querySelector('.enter-btn').addEventListener('click', (e) => {
+      sessionStorage.setItem('wish', input.value || '소원');
+    });
+  </script>
+</body>
+</html>

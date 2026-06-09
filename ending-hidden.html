@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>숨겨진 엔딩</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .ending-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+    }
+    .ending-name {
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #e8e8f0;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.04em;
+    }
+    .fin {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      margin-top: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .page { border-color: var(--accent); }
+    .page::before, .page::after { opacity: 0.4; }
+
+    /* Typewriter effect for the hidden ending */
+    .poem {
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.4s forwards;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="ending-num">HIDDEN ENDING</div>
+    <div class="ending-name">이루어지지 않은 소원</div>
+
+    <div class="poem">당신은 아무 소원도 빌지 않았다.
+
+오랫동안
+입력창만 바라보았다.
+
+그리고 창을 닫았다.
+
+세상은 변하지 않았다.
+
+하지만
+
+당신은 알게 되었다.
+
+가장 어려운 일은
+소원을 비는 것이 아니라
+지금의 삶을 살아내는 것이라는 사실을.</div>
+
+    <div class="fin">— 끝 —</div>
+
+    <nav class="choices">
+      <a class="choice" href="index.html">처음으로 돌아가기</a>
+    </nav>
+  </main>
+</body>
+</html>

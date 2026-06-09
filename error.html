@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[시스템 오류]</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .error-header {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--danger);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+    }
+    .poem em {
+      color: var(--danger);
+      font-style: normal;
+    }
+    .page { border-color: #3a1020; }
+    .page::before, .page::after { border-color: var(--danger); }
+  </style>
+</head>
+<body>
+  <main class="page glitch">
+    <div class="error-header">[ SYSTEM ERROR ]</div>
+
+    <div class="poem">과도한 소원이 감지되었습니다.
+소원들이 서로 충돌하고 있습니다.
+
+<em>사랑은 자유를 원하고,</em>
+자유는 고독을 만들고,
+복수는 상처를 남기고,
+인기는 공허를 남기고,
+<em>돈은 당신을 지워버립니다.</em></div>
+
+    <nav class="choices">
+      <a class="choice" href="truth.html">계속 진행</a>
+    </nav>
+  </main>
+</body>
+</html>
