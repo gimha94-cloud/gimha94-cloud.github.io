@@ -6,67 +6,30 @@
   <title>무엇을 원하십니까</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .question {
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: #e8e8f0;
-      margin-bottom: 0.8rem;
-      letter-spacing: 0.04em;
-    }
-    .wish-echo {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      margin-bottom: 2rem;
-      min-height: 1.2em;
-    }
-    .wish-echo span {
-      color: var(--accent);
-    }
-    .analysis {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      margin-bottom: 2rem;
-      padding: 0.8rem 1rem;
-      border: 1px solid var(--border);
-      display: none;
-    }
-    .analysis.visible { display: block; }
-    .analysis .match {
-      color: var(--accent);
-      font-size: 0.75rem;
-    }
-
-    /* 추천 카테고리 하이라이트 */
-    .choice.recommended {
-      border-color: var(--accent);
-      color: #fff;
-      background: var(--accent-glow);
-      position: relative;
-    }
-    .choice.recommended::after {
-      content: '← 추천';
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      color: var(--accent);
-      margin-left: 0.8rem;
-      letter-spacing: 0.1em;
-    }
+    .question { font-size: 1.3rem; font-weight: 400; color: #e8e8f0; margin-bottom: 0.8rem; letter-spacing: 0.04em; }
+    .wish-echo { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 1.5rem; min-height: 1.2em; }
+    .wish-echo span { color: var(--accent); }
+    .analysis { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 1.5rem; padding: 0.8rem 1rem; border: 1px solid var(--border); }
+    .analysis .match { color: var(--accent); font-size: 0.75rem; }
+    .analysis .nomatch { color: var(--danger); font-size: 0.72rem; }
+    .choice.recommended { border-color: var(--accent); color: #fff; background: var(--accent-glow); }
+    .choice.recommended::after { content: '← 추천'; font-family: var(--mono); font-size: 0.6rem; color: var(--accent); margin-left: 0.8rem; }
+    .choice.unknown-btn { border-color: var(--accent); color: var(--accent); margin-bottom: 1rem; }
+    .choice.unknown-btn:hover { background: var(--accent-glow); color: #fff; }
+    .or-divider { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.2em; margin: 1rem 0 0.5rem; }
   </style>
 </head>
 <body>
   <main class="page">
     <div class="sys-label">UNIT 01 — 선택</div>
-
     <h1 class="question">무엇을 원하십니까?</h1>
-
     <div class="wish-echo" id="wish-echo"></div>
-    <div class="analysis" id="analysis"></div>
-
-    <nav class="choices" id="choices">
+    <div class="analysis" id="analysis" style="display:none;"></div>
+    <div id="unknown-block" style="display:none;">
+      <a class="choice unknown-btn" href="unknown-wish.html" id="unknown-btn"></a>
+      <div class="or-divider">— 또는 가장 가까운 카테고리 선택 —</div>
+    </div>
+    <nav class="choices">
       <a class="choice" href="love.html" data-cat="love">사랑</a>
       <a class="choice" href="money.html" data-cat="money">돈</a>
       <a class="choice" href="fame.html" data-cat="fame">인기</a>
@@ -75,37 +38,46 @@
       <a class="choice" href="health.html" data-cat="health">건강</a>
       <a class="choice" href="talent.html" data-cat="talent">재능</a>
       <a class="choice" href="time.html" data-cat="time">시간</a>
+      <a class="choice" href="appearance.html" data-cat="appearance">외모</a>
+      <a class="choice" href="family.html" data-cat="family">가족</a>
+      <a class="choice" href="friend.html" data-cat="friend">친구</a>
+      <a class="choice" href="pass.html" data-cat="pass">합격</a>
+      <a class="choice" href="peace.html" data-cat="peace">평화</a>
+      <a class="choice" href="forget.html" data-cat="forget">망각</a>
+      <a class="choice" href="courage.html" data-cat="courage">용기</a>
+      <a class="choice" href="approval.html" data-cat="approval">인정</a>
+      <a class="choice" href="existence.html" data-cat="existence">존재</a>
     </nav>
   </main>
 
   <script>
     const wish = sessionStorage.getItem('wish') || '';
     const category = sessionStorage.getItem('category') || 'unknown';
-
     const echoEl = document.getElementById('wish-echo');
     const analysisEl = document.getElementById('analysis');
+    const unknownBlock = document.getElementById('unknown-block');
+    const unknownBtn = document.getElementById('unknown-btn');
 
-    if (wish) {
-      echoEl.innerHTML = '입력한 소원: <span>"' + wish + '"</span>';
-    }
+    if (wish) echoEl.innerHTML = '입력한 소원: <span>"' + wish + '"</span>';
 
     const labels = {
-      love: '사랑', money: '돈', fame: '인기',
-      revenge: '복수', freedom: '자유',
-      health: '건강', talent: '재능', time: '시간'
+      love:'사랑', money:'돈', fame:'인기', revenge:'복수', freedom:'자유',
+      health:'건강', talent:'재능', time:'시간', appearance:'외모',
+      family:'가족', friend:'친구', pass:'합격', peace:'평화',
+      forget:'망각', courage:'용기', approval:'인정', existence:'존재'
     };
 
     if (category !== 'unknown' && wish) {
-      analysisEl.classList.add('visible');
-      analysisEl.innerHTML =
-        '소원 분석 중...<br><span class="match">▶ ' + labels[category] + ' 카테고리가 감지되었습니다.</span>';
-
-      // 추천 카테고리 하이라이트
-      document.querySelectorAll('.choice').forEach(el => {
-        if (el.dataset.cat === category) {
-          el.classList.add('recommended');
-        }
+      analysisEl.style.display = 'block';
+      analysisEl.innerHTML = '소원 분석 완료<br><span class="match">▶ ' + labels[category] + ' 카테고리가 감지되었습니다.</span>';
+      document.querySelectorAll('.choice[data-cat]').forEach(el => {
+        if (el.dataset.cat === category) el.classList.add('recommended');
       });
+    } else if (wish) {
+      analysisEl.style.display = 'block';
+      analysisEl.innerHTML = '소원 분석 중...<br><span class="nomatch">▶ 기존 카테고리로 분류할 수 없는 소원입니다.<br>당신만의 경로로 안내합니다.</span>';
+      unknownBlock.style.display = 'block';
+      unknownBtn.textContent = '"' + wish + '" — 이대로 소원 빌기';
     }
   </script>
 </body>

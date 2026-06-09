@@ -6,118 +6,57 @@
   <title>소원 기계 — 하이퍼 디포엠</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .logo {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      letter-spacing: 0.2em;
-      margin-bottom: 3rem;
-    }
-    .headline {
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: #e8e8f0;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-      letter-spacing: 0.04em;
-    }
-    .tagline {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      letter-spacing: 0.12em;
-      margin-bottom: 0.5rem;
-    }
+    .logo { font-family: var(--mono); font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.2em; margin-bottom: 3rem; }
+    .headline { font-size: 1.4rem; font-weight: 400; color: #e8e8f0; line-height: 1.7; margin-bottom: 2.5rem; letter-spacing: 0.04em; }
+    .tagline { font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.12em; margin-bottom: 0.5rem; }
     .tagline span { color: var(--danger); }
-    .enter-btn {
-      display: block;
-      margin-top: 2.5rem;
-      padding: 1rem 1.2rem;
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 300;
-      text-decoration: none;
-      text-align: left;
-      letter-spacing: 0.06em;
-      transition: background 0.2s, color 0.2s;
-      position: relative;
-    }
-    .enter-btn::before {
-      content: '▶';
-      font-size: 0.65rem;
-      margin-right: 0.8rem;
-      color: var(--accent);
-    }
-    .enter-btn:hover {
-      background: var(--accent-glow);
-      color: #fff;
-    }
-    #wish-display {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      min-height: 1.2em;
-      margin-top: 0.4rem;
-      letter-spacing: 0.08em;
-      transition: opacity 0.3s;
-    }
+    .enter-btn { display: block; margin-top: 2.5rem; padding: 1rem 1.2rem; background: transparent; border: 1px solid var(--accent); color: var(--accent); font-family: var(--serif); font-size: 1rem; font-weight: 300; text-decoration: none; text-align: left; letter-spacing: 0.06em; transition: background 0.2s, color 0.2s; }
+    .enter-btn::before { content: '▶'; font-size: 0.65rem; margin-right: 0.8rem; color: var(--accent); }
+    .enter-btn:hover { background: var(--accent-glow); color: #fff; }
+    #wish-display { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); min-height: 1.2em; margin-top: 0.4rem; letter-spacing: 0.08em; }
   </style>
 </head>
 <body>
   <main class="page">
     <div class="logo">WISH.SYS v0.∞</div>
-
     <h1 class="headline">모든 소원은<br>이루어집니다.</h1>
-
     <p class="poem">당신의 소원을 입력하세요.</p>
-
-    <input
-      class="wish-input"
-      type="text"
-      placeholder="□□□□□□□□□□"
-      id="wish-input"
-      autocomplete="off"
-      spellcheck="false"
-      maxlength="30"
-    >
+    <input class="wish-input" type="text" placeholder="□□□□□□□□□□" id="wish-input" autocomplete="off" spellcheck="false" maxlength="40">
     <div id="wish-display"></div>
-
     <hr class="divider">
-
-    <p class="tagline">
-      ※ 모든 소원은 이루어집니다. &nbsp;
-      <span>※ 결과는 보장되지 않습니다.</span>
-    </p>
-
+    <p class="tagline">※ 모든 소원은 이루어집니다. &nbsp;<span>※ 결과는 보장되지 않습니다.</span></p>
     <a class="enter-btn" href="unit1.html" id="enter-btn">입장하기</a>
   </main>
 
   <script>
     const input = document.getElementById('wish-input');
     const display = document.getElementById('wish-display');
-
     input.addEventListener('input', () => {
       display.textContent = input.value ? '> ' + input.value : '';
     });
 
-    // 키워드 → 카테고리 매핑
-    function detectCategory(wish) {
-      const w = wish;
-      if (/사랑|좋아|썸|짝사랑|연애|남자친구|여자친구|고백|설레|그리워|보고싶|이별|헤어|결혼|연인|커플/.test(w)) return 'love';
-      if (/돈|부자|취업|월급|알바|빚|통장|재산|부유|경제|직장|연봉|투자|주식|로또|복권/.test(w)) return 'money';
-      if (/유명|인기|팔로워|좋아요|스타|아이돌|인플루언서|주목|관심|알아봐|칭찬|인정|주인공/.test(w)) return 'fame';
-      if (/복수|원수|미워|싫어|혼내|벌받|후회|앙갚음|갚아|당해봐|괴롭|괴로워/.test(w)) return 'revenge';
+    function detectCategory(w) {
+      if (/사랑|좋아|썸|짝사랑|연애|남자친구|여자친구|고백|설레|그리워|보고싶|이별|헤어|결혼|연인|커플|좋아하는/.test(w)) return 'love';
+      if (/돈|부자|취업|월급|알바|빚|통장|재산|부유|경제|직장|연봉|투자|주식|로또|복권|재벌|가난/.test(w)) return 'money';
+      if (/유명|인기|팔로워|좋아요|스타|아이돌|인플루언서|주목|관심|알아봐|칭찬|주인공|유튜버|셀럽/.test(w)) return 'fame';
+      if (/복수|원수|미워|싫어|혼내|벌받|후회|앙갚음|갚아|당해봐|괴롭/.test(w)) return 'revenge';
       if (/자유|벗어|탈출|도망|혼자|떠나|사라지|편하|쉬고|놓아|내려놓|독립/.test(w)) return 'freedom';
-      if (/건강|병|아파|낫고|완치|오래|장수|다이어트|살빼|몸/.test(w)) return 'health';
-      if (/재능|잘하|실력|능력|공부|성적|시험|합격|천재|똑똑|노래|그림|운동/.test(w)) return 'talent';
-      if (/시간|돌아가|과거|미래|되돌|후회|바꾸|다시|어릴|젊/.test(w)) return 'time';
+      if (/건강|병|아파|낫고|완치|오래|장수|다이어트|살빼|몸|치료|완쾌/.test(w)) return 'health';
+      if (/재능|잘하|실력|능력|공부|성적|시험|합격|천재|똑똑|노래|그림|운동|피아노|춤/.test(w)) return 'talent';
+      if (/시간|돌아가|과거|미래|되돌|후회|바꾸|다시|어릴|젊|그때/.test(w)) return 'time';
+      if (/외모|얼굴|살|예뻐|잘생|키|피부|몸매|날씬|성형|뚱|못생/.test(w)) return 'appearance';
+      if (/가족|엄마|아빠|부모|형|누나|오빠|언니|동생|할머니|할아버지|가정|집/.test(w)) return 'family';
+      if (/친구|우정|친해|같이|옆에|사람|외로|혼자|대화|이야기|친구가|친구를/.test(w)) return 'friend';
+      if (/붙고|합격|입시|수능|면접|대학|취직|자격증|시험에|통과|선발/.test(w)) return 'pass';
+      if (/평화|조용|쉬고|안정|마음|편안|스트레스|불안|걱정|잠|힐링/.test(w)) return 'peace';
+      if (/잊|망각|기억|지우|없애|사라지게|떠오르|트라우마|생각나/.test(w)) return 'forget';
+      if (/용기|두렵|무서|겁|말하|도전|시작|첫걸음|떨려|못하겠/.test(w)) return 'courage';
+      if (/인정|칭찬|잘했|충분|대단|인정받|존중|가치|자존/.test(w)) return 'approval';
+      if (/존재|있다는|살아|의미|이유|왜사|가치있|중요|필요한 사람/.test(w)) return 'existence';
       return 'unknown';
     }
 
-    document.getElementById('enter-btn').addEventListener('click', (e) => {
+    document.getElementById('enter-btn').addEventListener('click', () => {
       const wish = input.value.trim();
       sessionStorage.setItem('wish', wish || '소원');
       sessionStorage.setItem('category', detectCategory(wish));

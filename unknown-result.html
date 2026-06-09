@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소원의 결과</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <img class="unit-image" src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=60" alt="소원의 결과">
+    <div class="sys-label">소원의 결과</div>
+
+    <div class="poem" id="result-poem"></div>
+
+    <nav class="choices">
+      <a class="choice gold" href="error.html">받아들인다</a>
+      <a class="choice danger" href="error.html">거부한다</a>
+    </nav>
+  </main>
+
+  <script>
+    const wish = sessionStorage.getItem('wish') || '그것';
+    document.getElementById('result-poem').textContent =
+      wish + '.\n\n이루어졌다.\n\n하지만\n\n당신이 원했던 그 모습은\n아니었다.\n\n소원은 이루어졌다.\n다만\n당신이 상상한 방식으로는 아니었을 뿐.';
+  </script>
+</body>
+</html>
